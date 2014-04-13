@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sabd="http://schemas.android.com/apk/res-auto" >
+    <item
+        android:id="@+id/menu_one"
+        android:title="@string/menu_one"
+        android:icon="@android:drawable/ic_menu_add"
+        sabd:showAsAction="always" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sabd="http://schemas.android.com/apk/res-auto" >
+    <item
+        android:id="@+id/menu_one_inport_base"
+        android:title="@string/menu_one_inport_base"
+        android:icon="@android:drawable/ic_menu_delete"
+        sabd:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_one_inport_all"
+        android:title="@string/menu_one_inport_all"
+        android:icon="@android:drawable/ic_menu_add"
+        sabd:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/menu_one_settings"
+        android:title="@string/menu_one_settings"
+        android:icon="@android:drawable/ic_menu_add"
+        sabd:showAsAction="never" />
+</menu>
+</item>
+</menu>
