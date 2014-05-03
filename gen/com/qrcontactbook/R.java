@@ -1016,15 +1016,15 @@ containing a value of this type.
         public static final int listViewPageBase=0x7f05003c;
         public static final int listViewPageBaseTel=0x7f05003d;
         public static final int list_item=0x7f050029;
-        public static final int menu_one=0x7f05003e;
-        public static final int menu_one_inport_all=0x7f050040;
-        public static final int menu_one_inport_base=0x7f05003f;
-        public static final int menu_one_settings=0x7f050041;
-        public static final int menu_two=0x7f050042;
-        public static final int menu_two_delete_all=0x7f050045;
-        public static final int menu_two_inport_all=0x7f050044;
-        public static final int menu_two_inport_tel_book=0x7f050043;
-        public static final int menu_two_settings=0x7f050046;
+        public static final int menu_one=0x7f050040;
+        public static final int menu_one_inport_all=0x7f050042;
+        public static final int menu_one_inport_base=0x7f050041;
+        public static final int menu_one_settings=0x7f050043;
+        public static final int menu_two=0x7f050044;
+        public static final int menu_two_delete_all=0x7f050047;
+        public static final int menu_two_inport_all=0x7f050046;
+        public static final int menu_two_inport_tel_book=0x7f050045;
+        public static final int menu_two_settings=0x7f050048;
         public static final int middle=0x7f050012;
         public static final int never=0x7f050009;
         public static final int none=0x7f050010;
@@ -1051,6 +1051,8 @@ containing a value of this type.
         public static final int tabMode=0x7f050002;
         public static final int title=0x7f05002b;
         public static final int top_action_bar=0x7f050020;
+        public static final int txt_text=0x7f05003f;
+        public static final int txt_title=0x7f05003e;
         public static final int up=0x7f050021;
         public static final int useLogo=0x7f050003;
         public static final int withText=0x7f05000c;
@@ -1106,7 +1108,8 @@ containing a value of this type.
         public static final int abc_search_view=0x7f030016;
         public static final int contact_base_page=0x7f030017;
         public static final int contact_base_tel_page=0x7f030018;
-        public static final int support_simple_spinner_dropdown_item=0x7f030019;
+        public static final int simple_list_item=0x7f030019;
+        public static final int support_simple_spinner_dropdown_item=0x7f03001a;
     }
     public static final class menu {
         public static final int menu_one=0x7f0c0000;
@@ -2423,7 +2426,7 @@ containing a value of this type.
          */
         public static final int[] MenuView = {
             0x010100ae, 0x0101012c, 0x0101012d, 0x0101012e,
-            0x0101012f, 0x01010130, 0x01010131, 0x01010435
+            0x0101012f, 0x01010130, 0x01010131, 0x0101040c
         };
         /**
           <p>
