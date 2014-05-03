@@ -1,30 +1,29 @@
 package com.qrcontactbook;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.qrcontactbook.adapter.ContactAdapter;
-import com.qrcontactbook.db.Contact;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.qrcontactbook.adapter.ContactAdapter;
+import com.qrcontactbook.db.Contact;
 
 public class HomeActivity extends ActionBarActivity {
 	
+	private static final String TAG = "com.qrcontactbook.HomeActivity";
     private int mState = 0;
     private ViewPager viewPager = null;
     
@@ -52,16 +51,10 @@ public class HomeActivity extends ActionBarActivity {
 	    pages.add(lv);
 	        
 	    View  page1 = inflater.inflate(R.layout.contact_base_page, null);
-	    final String[] baseOne = new String[] {
-	    		"Tro", "Trolo", "Trololo", "Trol1", "Bla",
-	    		"Blabla", "trwe", "qer", "qwre", "Qwer",
-	    		"Qwerty", "Mla", "Trtata"		    
-	    };
-	    ArrayAdapter<String> adapterOne = new ArrayAdapter<String>(this,
-	    		android.R.layout.simple_list_item_1, baseOne);
+	    
 	    ListView lvOne = (ListView) page1.findViewById(R.id.listViewPageBase);
 	    
-	    lvOne.setAdapter(adapterOne);
+	    lvOne.setAdapter(this.getBaseAdapter());
 	    pages.add(lvOne);
 	    
 	    MyPagerAdapter pagerAdapter = new MyPagerAdapter(pages);
@@ -83,6 +76,17 @@ public class HomeActivity extends ActionBarActivity {
     private ContactAdapter getPhoneAdapter() {
     	ContactAdapter adapter = new ContactAdapter(this);
     	adapter.setData(this.getPhoneContactList());
+    	return adapter;
+    }
+	 
+    private ContactAdapter getBaseAdapter() {
+    	ContactAdapter adapter = new ContactAdapter(this);
+    	try {
+    	adapter.setData(((ContactApp)this.getApplication())
+    			.getContactManager().getAll());
+    	} catch(SQLException ex) {
+    		Log.e(TAG, ex.getMessage());
+    	}
     	return adapter;
     }
 	 
