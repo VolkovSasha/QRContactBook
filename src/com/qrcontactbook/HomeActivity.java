@@ -4,7 +4,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +18,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.qrcontactbook.adapter.ContactAdapter;
@@ -57,6 +63,20 @@ public class HomeActivity extends ActionBarActivity {
 	    lvOne.setAdapter(this.getBaseAdapter());
 	    pages.add(lvOne);
 	    
+	    lvOne.setOnItemClickListener(new OnItemClickListener() {
+	        
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				Log.d("log", "itemClick: position = " + arg1 + ", id = "
+		                  + arg2);
+				
+				Intent myIntent = new Intent(HomeActivity.this, ContactActivity.class);
+				HomeActivity.this.startActivity(myIntent);
+			}
+	          });
+	  
+	    
 	    MyPagerAdapter pagerAdapter = new MyPagerAdapter(pages);
 	    viewPager = new ViewPager(this);
 	    viewPager.setAdapter(pagerAdapter);
@@ -87,9 +107,10 @@ public class HomeActivity extends ActionBarActivity {
     	} catch(SQLException ex) {
     		Log.e(TAG, ex.getMessage());
     	}
+    	
     	return adapter;
     }
-	 
+    
     private List<Contact> getPhoneContactList() {
     	List<Contact> list = new ArrayList<Contact>();
     	
