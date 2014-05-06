@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+	
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+    <EditText 
+        android:id="@+id/edit_text_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Trololo"/>
+    
+    
+	</LinearLayout>
+	
+<Spinner
+    android:id="@+id/group_spinner"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
+
+<LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+    <EditText 
+        android:id="@+id/edit_text_mail"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="TrololoMail"/>
+    
+    
+	</LinearLayout>
+	
+	<ListView
+		    android:id="@+id/listViewEditBtnClick"
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent"
+		    android:layout_weight="1"
+		    android:layout_gravity="center_vertical" >
+	</ListView>
+
+	<LinearLayout 
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="bottom">
+ 	 <Button 
+ 	     android:id="@+id/btn_edit"
+ 	     android:layout_width="wrap_content"
+ 	     android:layout_height="wrap_content"
+ 	     android:layout_weight="1"
+ 	     android:onClick="onAddPhoneClick"
+ 	     android:text="Add Phone"/>
+ 	 		    
+	</LinearLayout>
+	<LinearLayout 
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="bottom">
+ 	 <Button 
+ 	     android:id="@+id/btn_save"
+ 	     android:layout_width="wrap_content"
+ 	     android:layout_height="wrap_content"
+ 	     android:layout_weight="1"
+ 	     android:onClick="onSaveClick"
+ 	     android:text="Save"/>
+ 	 
+ 	 <Button 
+ 	     android:id="@+id/btn_cancel"
+ 	     android:layout_width="wrap_content"
+ 	     android:layout_height="wrap_content"
+ 	     android:layout_weight="1"
+ 	     android:onClick="onCancelClick"
+ 	     android:text="Cancel"/>
+	    
+	</LinearLayout>
+
+</LinearLayout>

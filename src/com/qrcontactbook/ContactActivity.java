@@ -1,7 +1,9 @@
 package com.qrcontactbook;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -21,8 +23,11 @@ public class ContactActivity extends Activity {
 					 R.layout.contact_activity_list_item, R.id.label, name);
 		   lv.setAdapter(adapter);
 		   
-		   
-		   
 		 }
+	 
+	 public void onEditContactClick(View view){
+		 Intent intent = new Intent(this, EditContactActivity.class);
+		 this.startActivity(intent);
+	 }
 	 
 }
