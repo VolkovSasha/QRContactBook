@@ -41,6 +41,7 @@ public class HomeActivity extends ActionBarActivity {
 	    setContentView(R.layout.contact_base_tel_page);
 	    
 	    setContactViews();
+	    //jgvntfv
 	    
 	}
     
