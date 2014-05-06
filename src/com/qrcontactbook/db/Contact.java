@@ -7,7 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Contact {
 	
 	@DatabaseField(generatedId = true)
-	private int id;
+	private long id;
 	@DatabaseField(columnName = "name", canBeNull = false, index = true, indexName = "name_index")
 	private String name;
 	
@@ -19,8 +19,8 @@ public class Contact {
 		this("");
 	}
 	
-	public void setId(int id) {this.id = id;}
-	public int getId() {return this.id;}
+	public void setId(long id) {this.id = id;}
+	public long getId() {return this.id;}
 	
 	public void setName(String name) { this.name = name; }
 	public String getName() {return this.name;}

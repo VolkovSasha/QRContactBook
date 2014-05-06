@@ -33,6 +33,8 @@ public class HomeActivity extends ActionBarActivity {
     private int mState = 0;
     private ViewPager viewPager = null;
     
+    private ContactAdapter phoneAdapter = null;
+    
 	
     @Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -68,11 +70,14 @@ public class HomeActivity extends ActionBarActivity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				Log.d("log", "itemClick: position = " + arg1 + ", id = "
-		                  + arg2);
+				Log.d("log", "itemClick: position = " + arg2 + ", id = "
+		                  + arg3);
 				
-				Intent myIntent = new Intent(HomeActivity.this, ContactActivity.class);
-				HomeActivity.this.startActivity(myIntent);
+				Intent intent = new Intent(HomeActivity.this, ContactActivity.class);
+				intent.putExtra("contact_id", phoneAdapter.getItem(arg2).getId());
+				intent.putExtra("contact_name", phoneAdapter.getItem(arg2).getName());
+				
+				HomeActivity.this.startActivity(intent);
 			}
 	          });
 	  
@@ -94,9 +99,9 @@ public class HomeActivity extends ActionBarActivity {
     }
     
     private ContactAdapter getPhoneAdapter() {
-    	ContactAdapter adapter = new ContactAdapter(this);
-    	adapter.setData(this.getPhoneContactList());
-    	return adapter;
+    	phoneAdapter = new ContactAdapter(this);
+    	phoneAdapter.setData(this.getPhoneContactList());
+    	return phoneAdapter;
     }
 	 
     private ContactAdapter getBaseAdapter() {
@@ -128,7 +133,7 @@ public class HomeActivity extends ActionBarActivity {
     	if(cur.getCount() > 0) {
     		while(cur.moveToNext()) {
         		Contact contact = new Contact();
-    			contact.setId(Integer.parseInt(cur.getString(
+    			contact.setId(Long.parseLong(cur.getString(
     					cur.getColumnIndex(ContactsContract.Contacts._ID))));
     			contact.setName(cur.getString(cur.getColumnIndex(
     					ContactsContract.Contacts.DISPLAY_NAME)));
