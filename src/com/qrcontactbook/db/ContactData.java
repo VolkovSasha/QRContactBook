@@ -7,13 +7,15 @@ import com.j256.ormlite.table.DatabaseTable;
 public class ContactData {
 	
 	@DatabaseField(generatedId = true)
-	private int id;
+	private long id;
 	@DatabaseField(columnName = "contact_id", canBeNull = false)
-	private int contactId;
+	private long contactId;
 	@DatabaseField(columnName = "type", canBeNull = false, index = true, indexName = "type_index")
 	private String type;
 	@DatabaseField(columnName = "value", canBeNull = false)
 	private String value;
+	
+	private String vType = null;
 	
 	public ContactData(int conId, String type, String value) {
 		this.contactId = conId;
@@ -25,11 +27,11 @@ public class ContactData {
 		this(0, "", "");
 	}
 	
-	public void setId(int id) {this.id = id;}
-	public int getId() {return this.id;}
+	public void setId(long id) {this.id = id;}
+	public long getId() {return this.id;}
 	
-	public void setContactId(int id) {this.contactId = id;}
-	public int getContactId() {return this.contactId;}
+	public void setContactId(long id) {this.contactId = id;}
+	public long getContactId() {return this.contactId;}
 	
 	public void setType(String type) {this.type = type;}
 	public String getType() {return this.type;}
@@ -37,4 +39,7 @@ public class ContactData {
 	public void setValue(String value) {this.value = value;}
 	public String getValue() {return this.value;}
 
+	public void setVisibleType(String type) {this.vType = type;}
+	public String getVisibleType() {return (this.vType==null)?type:vType;}
+	
 }

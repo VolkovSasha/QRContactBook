@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -20,8 +19,6 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.qrcontactbook.adapter.ContactAdapter;
@@ -56,6 +53,17 @@ public class HomeActivity extends ActionBarActivity {
 	    ListView lv = (ListView) page.findViewById(R.id.listViewPageBaseTel);
 	   
 	    lv.setAdapter(this.getPhoneAdapter());
+	    lv.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> adapter, View view, int position,
+					long id) {
+				Intent intent = new Intent(HomeActivity.this, ContactActivity.class);
+				intent.putExtra("contact_id", phoneAdapter.getItem(position).getId());
+				intent.putExtra("contact_name", phoneAdapter.getItem(position).getName());
+				intent.putExtra("contact_type", "phone_contact");
+				HomeActivity.this.startActivity(intent);
+			}
+	    });
 	    pages.add(lv);
 	        
 	    View  page1 = inflater.inflate(R.layout.contact_base_page, null);
@@ -68,15 +76,12 @@ public class HomeActivity extends ActionBarActivity {
 	    lvOne.setOnItemClickListener(new OnItemClickListener() {
 	        
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				Log.d("log", "itemClick: position = " + arg2 + ", id = "
-		                  + arg3);
-				
+			public void onItemClick(AdapterView<?> adapter, View view, int position,
+					long id) {
 				Intent intent = new Intent(HomeActivity.this, ContactActivity.class);
-				intent.putExtra("contact_id", phoneAdapter.getItem(arg2).getId());
-				intent.putExtra("contact_name", phoneAdapter.getItem(arg2).getName());
-				
+				intent.putExtra("contact_id", phoneAdapter.getItem(position).getId());
+				intent.putExtra("contact_name", phoneAdapter.getItem(position).getName());
+				intent.putExtra("contact_type", "base_contact");
 				HomeActivity.this.startActivity(intent);
 			}
 	          });
