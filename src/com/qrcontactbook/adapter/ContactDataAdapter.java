@@ -3,7 +3,6 @@ package com.qrcontactbook.adapter;
 import java.util.List;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import com.qrcontactbook.db.ContactData;
 
 public class ContactDataAdapter extends BaseAdapter {
 	
-	private static final String TAG = "com.qrcontactbook.ContactDataAdapter";
 	private List<ContactData> data;
 	private LayoutInflater inflater;
 	
@@ -63,7 +61,6 @@ public class ContactDataAdapter extends BaseAdapter {
         holder.image.setImageResource(R.drawable.ic_launcher);
         holder.title.setText(data.getVisibleType());
         holder.text.setText(data.getValue());
-        Log.d(TAG, data.getVisibleType() + "=" + data.getValue());
         
         return view;
 	}

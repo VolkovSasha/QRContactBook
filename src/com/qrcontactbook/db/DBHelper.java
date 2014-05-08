@@ -35,6 +35,36 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 			dao.create(new Contact("Ololosh"));
 			dao.create(new Contact("Trololosh"));
 			dao.create(new Contact("Olen"));
+			
+			Dao<Group, Integer> gdao =
+					DaoManager.createDao(this.getConnectionSource(), 
+							Group.class);
+			gdao.create(new Group("VIP"));
+			gdao.create(new Group("Favorites"));
+			gdao.create(new Group("Friends"));
+			gdao.create(new Group("Family"));
+			gdao.create(new Group("Coworkers"));
+			
+			Dao<ContactData, Integer> cdao = 
+					DaoManager.createDao(this.getConnectionSource(), 
+							ContactData.class);
+			cdao.create(new ContactData(1, "group", "1"));
+			cdao.create(new ContactData(2, "group", "2"));
+			cdao.create(new ContactData(3, "group", "3"));
+			cdao.create(new ContactData(4, "group", "4"));
+			cdao.create(new ContactData(1, "number:Mobile", "0951435423"));
+			cdao.create(new ContactData(2, "number:Mobile", "0951435423"));
+			cdao.create(new ContactData(3, "number:Mobile", "0951435423"));
+			cdao.create(new ContactData(4, "number:Mobile", "0951435423"));
+			cdao.create(new ContactData(5, "number:Mobile", "0951435423"));
+			cdao.create(new ContactData(6, "number:Mobile", "0951435423"));
+			cdao.create(new ContactData(1, "number:Work", "0951435423"));
+			cdao.create(new ContactData(3, "number:Home", "0951435423"));
+			cdao.create(new ContactData(5, "number:Home", "0951435423"));
+			cdao.create(new ContactData(1, "E-mail", "somemail@mail.ru"));
+			cdao.create(new ContactData(2, "E-mail", "somemail@mail.ru"));
+			cdao.create(new ContactData(5, "E-mail", "somemail@mail.ru"));
+			cdao.create(new ContactData(6, "E-mail", "somemail@mail.ru"));
 		} catch(SQLException ex) {
 			Log.e(TAG, ex.getMessage());
 		}
@@ -45,6 +75,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 		try {
 			TableUtils.createTableIfNotExists(sourse, Contact.class);
 			TableUtils.createTableIfNotExists(sourse, ContactData.class);
+			TableUtils.createTableIfNotExists(sourse, Group.class);
 			
 			testfunction();
 		} catch(java.sql.SQLException ex) {

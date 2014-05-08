@@ -7,6 +7,7 @@ import com.j256.ormlite.dao.DaoManager;
 import com.qrcontactbook.db.Contact;
 import com.qrcontactbook.db.ContactData;
 import com.qrcontactbook.db.DBHelper;
+import com.qrcontactbook.db.Group;
 import com.qrcontactbook.manager.ContactDataManager;
 import com.qrcontactbook.manager.ContactManager;
 
@@ -49,6 +50,10 @@ public class ContactApp extends Application {
 						DaoManager.createDao(dbHelper.getConnectionSource(), 
 								ContactData.class);
 				contactDataManager.setContactDataDao(contactDataDao);
+				Dao<Group, Integer> groupDao =
+						DaoManager.createDao(dbHelper.getConnectionSource(), 
+								Group.class);
+				contactDataManager.setGroupDao(groupDao);
 			} catch(SQLException ex) {
 				Log.e(TAG, ex.getMessage());
 			}

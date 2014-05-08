@@ -31,7 +31,7 @@ public class HomeActivity extends ActionBarActivity {
     private ViewPager viewPager = null;
     
     private ContactAdapter phoneAdapter = null;
-    
+    private ContactAdapter baseAdapter = null;
 	
     @Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -79,8 +79,8 @@ public class HomeActivity extends ActionBarActivity {
 			public void onItemClick(AdapterView<?> adapter, View view, int position,
 					long id) {
 				Intent intent = new Intent(HomeActivity.this, ContactActivity.class);
-				intent.putExtra("contact_id", phoneAdapter.getItem(position).getId());
-				intent.putExtra("contact_name", phoneAdapter.getItem(position).getName());
+				intent.putExtra("contact_id", baseAdapter.getItem(position).getId());
+				intent.putExtra("contact_name", baseAdapter.getItem(position).getName());
 				intent.putExtra("contact_type", "base_contact");
 				HomeActivity.this.startActivity(intent);
 			}
@@ -110,15 +110,15 @@ public class HomeActivity extends ActionBarActivity {
     }
 	 
     private ContactAdapter getBaseAdapter() {
-    	ContactAdapter adapter = new ContactAdapter(this);
+    	baseAdapter = new ContactAdapter(this);
     	try {
-    	adapter.setData(((ContactApp)this.getApplication())
+    		baseAdapter.setData(((ContactApp)this.getApplication())
     			.getContactManager().getAll());
     	} catch(SQLException ex) {
     		Log.e(TAG, ex.getMessage());
     	}
     	
-    	return adapter;
+    	return baseAdapter;
     }
     
     private List<Contact> getPhoneContactList() {
