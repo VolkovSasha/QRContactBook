@@ -21,6 +21,14 @@ public class ContactManager {
 		this.contactDao.create(contact);
 	}
 	
+	public void update(Contact contact) throws SQLException {
+		this.contactDao.update(contact);
+	}
+	
+	public void delete(Contact contact) throws SQLException {
+		this.contactDao.delete(contact);
+	}
+	
 	public List<Contact> getAll() throws SQLException {
 		return contactDao.queryForAll();
 	}

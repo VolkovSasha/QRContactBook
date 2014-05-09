@@ -81,5 +81,12 @@ public class ContactActivity extends Activity {
 		intent.putExtra("contact_type", contact_type);
 		this.startActivity(intent);
 	}
+	
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent(this, HomeActivity.class);
+		this.startActivity(intent);
+		finish();
+	}
 	 
 }

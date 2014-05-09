@@ -17,10 +17,9 @@
 	<string name="menu_two_delete_all">Delete all</string>
 	
 	<string-array name="group_spinner">
-    <item>group_1</item>
-    <item>group_2</item>
-    <item>group_3</item>
-    <item>group_4</item>
+    <item>Mobile</item>
+    <item>Home</item>
+    <item>Work</item>
 	</string-array>
 	
 </resources>

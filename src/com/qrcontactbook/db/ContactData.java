@@ -17,7 +17,7 @@ public class ContactData {
 	
 	private String vType = null;
 	
-	public ContactData(int conId, String type, String value) {
+	public ContactData(long conId, String type, String value) {
 		this.contactId = conId;
 		this.type = type;
 		this.value = value;
@@ -40,6 +40,10 @@ public class ContactData {
 	public String getValue() {return this.value;}
 
 	public void setVisibleType(String type) {this.vType = type;}
-	public String getVisibleType() {return (this.vType==null)?type:vType;}
+	public String getVisibleType() {
+		if(type.contains("number:"))
+			vType = type.substring(type.indexOf("number:") + 7);
+		return (this.vType==null)?type:vType;
+	}
 	
 }

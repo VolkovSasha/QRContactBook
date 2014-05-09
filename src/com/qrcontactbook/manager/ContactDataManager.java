@@ -38,6 +38,27 @@ public class ContactDataManager {
 		this.contactDataDao.create(contact);
 	}
 	
+	public void delete(ContactData contact) throws SQLException {
+		this.contactDataDao.delete(contact);
+	}
+	
+	public void update(ContactData contact) throws SQLException {
+		this.contactDataDao.update(contact);
+	}
+	
+	public Map<String, Long> getBaseGroupList() 
+				throws SQLException {
+		Map<String, Long> list = new HashMap<String, Long>();
+		
+		List<Group> res = groupDao.queryForAll();
+		if(res.size() > 0) 
+			for(Group gr : res) 
+				list.put(gr.getName(), gr.getId());
+		list.put("No group", -1l);
+		
+		return list;
+	}
+	
 	public List<ContactData> getBaseContactData(long contact_id) 
 				throws SQLException {
 		
@@ -56,6 +77,17 @@ public class ContactDataManager {
 				.like("type", "%number%")
 				.and()
 				.eq("contact_id", contact_id).query();
+	}
+	
+	public String getBaseContactFirstMail(long contact_id)
+				throws SQLException {
+		String mail = "No e-mail";
+		
+		List<ContactData> list = this.getBaseContactMails(contact_id);
+		if(list.size() > 0)
+			mail = list.get(0).getValue();
+		
+		return mail;
 	}
 	
 	public List<ContactData> getBaseContactMails(long contact_id)
