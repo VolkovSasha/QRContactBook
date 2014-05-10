@@ -4,7 +4,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -19,6 +22,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 import com.qrcontactbook.adapter.ContactAdapter;
@@ -40,8 +44,21 @@ public class HomeActivity extends ActionBarActivity {
 	    setContentView(R.layout.contact_base_tel_page);
 	    
 	    setContactViews();
-	    
 	}
+    
+    @Override
+    public void onResume() {
+    	super.onResume();
+    	try {
+    		phoneAdapter.setData(this.getPhoneContactList());
+    		phoneAdapter.notifyDataSetChanged();
+    		baseAdapter.setData(((ContactApp) this.getApplication())
+    				.getContactManager().getAll());
+    		baseAdapter.notifyDataSetChanged();
+    	} catch(SQLException ex) {
+    		Log.e(TAG, ex.getMessage(), ex);
+    	}
+    }
     
     private void setContactViews() {
 
@@ -84,7 +101,46 @@ public class HomeActivity extends ActionBarActivity {
 				intent.putExtra("contact_type", "base_contact");
 				HomeActivity.this.startActivity(intent);
 			}
-	          });
+	    });
+	    lvOne.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> adap, View view,
+					int position, long id) {
+				final int pos = position;
+				final String[] name ={"Generate QR Code", "Read QR Code"};
+				AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+				builder.setTitle("Contact Menu");
+				builder.setItems(name, new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int item) {
+						
+						if(name[item].equals("Generate QR Code")) {
+							Intent intent = new Intent(HomeActivity.this, QRCoderActivity.class);
+							intent.putExtra("contact_id", baseAdapter.getItem(pos).getId());
+							intent.putExtra("contact_name", baseAdapter.getItem(pos).getName());
+							intent.putExtra("contact_type", "base_contact");
+							startActivity(intent);
+						}
+						if(name[item].equals("Read QR Code")) {
+							Intent intent = new Intent(HomeActivity.this, QRDecoderActivity.class);
+							startActivity(intent);
+						}
+					}
+				});
+				builder.setNegativeButton("Cancel", 
+						new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				});
+				final Dialog dialog = builder.create();
+				dialog.show();
+				return false;
+			}
+		});
 	  
 	    
 	    MyPagerAdapter pagerAdapter = new MyPagerAdapter(pages);

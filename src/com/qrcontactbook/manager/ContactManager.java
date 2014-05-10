@@ -33,4 +33,9 @@ public class ContactManager {
 		return contactDao.queryForAll();
 	}
 	
+	public Contact getLast() throws SQLException {
+		List<Contact> list = this.getAll();
+		return list.get(list.size()-1);
+	}
+	
 }
