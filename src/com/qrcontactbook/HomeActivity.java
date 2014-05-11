@@ -68,7 +68,6 @@ public class HomeActivity extends ActionBarActivity {
 	    View page = inflater.inflate(R.layout.contact_base_tel_page, null);
 	    
 	    ListView lv = (ListView) page.findViewById(R.id.listViewPageBaseTel);
-	   
 	    lv.setAdapter(this.getPhoneAdapter());
 	    lv.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -86,12 +85,9 @@ public class HomeActivity extends ActionBarActivity {
 	    View  page1 = inflater.inflate(R.layout.contact_base_page, null);
 	    
 	    ListView lvOne = (ListView) page1.findViewById(R.id.listViewPageBase);
-	    
 	    lvOne.setAdapter(this.getBaseAdapter());
 	    pages.add(lvOne);
-	    
 	    lvOne.setOnItemClickListener(new OnItemClickListener() {
-	        
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View view, int position,
 					long id) {
@@ -103,7 +99,6 @@ public class HomeActivity extends ActionBarActivity {
 			}
 	    });
 	    lvOne.setOnItemLongClickListener(new OnItemLongClickListener() {
-
 			@Override
 			public boolean onItemLongClick(AdapterView<?> adap, View view,
 					int position, long id) {
@@ -112,10 +107,8 @@ public class HomeActivity extends ActionBarActivity {
 				AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
 				builder.setTitle("Contact Menu");
 				builder.setItems(name, new DialogInterface.OnClickListener() {
-					
 					@Override
 					public void onClick(DialogInterface dialog, int item) {
-						
 						if(name[item].equals("Generate QR Code")) {
 							Intent intent = new Intent(HomeActivity.this, QRCoderActivity.class);
 							intent.putExtra("contact_id", baseAdapter.getItem(pos).getId());
@@ -141,7 +134,6 @@ public class HomeActivity extends ActionBarActivity {
 				return false;
 			}
 		});
-	  
 	    
 	    MyPagerAdapter pagerAdapter = new MyPagerAdapter(pages);
 	    viewPager = new ViewPager(this);
