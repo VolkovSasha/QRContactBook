@@ -32,6 +32,7 @@ public class HomeActivity extends ActionBarActivity {
 	
 	private static final String TAG = "com.qrcontactbook.HomeActivity";
     private int mState = 0;
+    private int state =0;
     private ViewPager viewPager = null;
     
     private ContactAdapter phoneAdapter = null;
@@ -42,7 +43,7 @@ public class HomeActivity extends ActionBarActivity {
 	
     	super.onCreate(savedInstanceState);
 	    setContentView(R.layout.contact_base_tel_page);
-	    
+	    setTitle("Phone Contact");
 	    setContactViews();
 	}
     
@@ -64,7 +65,6 @@ public class HomeActivity extends ActionBarActivity {
 
     	LayoutInflater inflater = LayoutInflater.from(this);
 	    List<View> pages = new ArrayList<View>();
-
 	    View page = inflater.inflate(R.layout.contact_base_tel_page, null);
 	    
 	    ListView lv = (ListView) page.findViewById(R.id.listViewPageBaseTel);
@@ -145,7 +145,7 @@ public class HomeActivity extends ActionBarActivity {
 	    	@Override
 	    	public void onPageScrolled(int arg0, float arg1, int arg2) {}
 	    	@Override
-	    	public void onPageSelected(int arg0) {menuChange();	}
+	    	public void onPageSelected(int arg0) {menuChange(); titleChange();	}
 	    });
 	    
 	    setContentView(viewPager);
@@ -203,12 +203,20 @@ public class HomeActivity extends ActionBarActivity {
 		 mState = viewPager.getCurrentItem();
 		 this.supportInvalidateOptionsMenu();
 	}
+	private void titleChange(){
+		state = viewPager.getCurrentItem();
+		if(state ==0)
+			setTitle("Phone Contact");
+		else 
+			setTitle("Base Contact");
+	}
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	if(mState == 0)
     		getMenuInflater().inflate(R.menu.menu_one, menu);
+    	
     	else
     		getMenuInflater().inflate(R.menu.menu_two, menu);
         return true;

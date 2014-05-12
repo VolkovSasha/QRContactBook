@@ -25,6 +25,7 @@ public class ContactActivity extends Activity {
 	
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.contact_activity);
+		setTitle("View Profile");
 		
 		Intent intent = this.getIntent();
 		contact_id = intent.getLongExtra("contact_id", 0);

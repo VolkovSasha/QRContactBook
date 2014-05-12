@@ -45,7 +45,7 @@ public class ContactAdapter extends BaseAdapter {
 	public View getView(int position, View view, ViewGroup parent) {
 		view = inflater.inflate(R.layout.simple_list_item, null);
         Contact contact = getItem(position);
-        TextView.class.cast(view.findViewById(R.id.txt_text)).setText(""+contact.getId());
+       // TextView.class.cast(view.findViewById(R.id.txt_text)).setText(""+contact.getId());
         TextView.class.cast(view.findViewById(R.id.txt_title)).setText(contact.getName());
         return view;
 	}

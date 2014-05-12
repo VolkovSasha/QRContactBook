@@ -59,7 +59,7 @@ public class EditContactActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.edit_contact_activity);
-
+		setTitle("Edit Profile");
 		Intent intent = this.getIntent();
 		contact_id = intent.getLongExtra("contact_id", 0);
 		contact_name = intent.getStringExtra("contact_name");
@@ -233,7 +233,7 @@ public class EditContactActivity extends Activity {
 		 
 		 final Dialog dialog = new Dialog(EditContactActivity.this);
 		 dialog.setContentView(dlg);
-		 
+		 dialog.setTitle("Add Phone Number");
 		 Button btnOk = (Button) dialog.findViewById(R.id.btnOk);
 		 Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
 		 
