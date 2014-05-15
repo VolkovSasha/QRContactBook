@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -45,6 +46,7 @@ public class HomeActivity extends ActionBarActivity {
 	    setContentView(R.layout.contact_base_tel_page);
 	    setTitle("Phone Contact");
 	    setContactViews();
+	    getOverflowMenu();
 	}
     
     @Override
@@ -211,7 +213,22 @@ public class HomeActivity extends ActionBarActivity {
 			setTitle("Base Contact");
 	}
 
-
+	private void getOverflowMenu() {
+		 
+	    try {
+	 
+	       ViewConfiguration config = ViewConfiguration.get(this);
+	       java.lang.reflect.Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+	       if(menuKeyField != null) {
+	           menuKeyField.setAccessible(true);
+	           menuKeyField.setBoolean(config, false);
+	       }
+	   } catch (Exception e) {
+	       e.printStackTrace();
+	   }
+	 
+	}
+	
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	if(mState == 0)
