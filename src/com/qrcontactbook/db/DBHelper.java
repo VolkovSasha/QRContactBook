@@ -32,9 +32,9 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 			dao.create(new Contact("contact1"));
 			dao.create(new Contact("contact2"));
 			dao.create(new Contact("contact3"));
-			dao.create(new Contact("Ololosh"));
-			dao.create(new Contact("Trololosh"));
-			dao.create(new Contact("Olen"));
+			dao.create(new Contact("contact4"));
+			dao.create(new Contact("contact5"));
+			dao.create(new Contact("contact6"));
 			
 			Dao<Group, Integer> gdao =
 					DaoManager.createDao(this.getConnectionSource(), 
