@@ -2,31 +2,21 @@
     xmlns:sabd="http://schemas.android.com/apk/res-auto" >
     <item
         android:id="@+id/menu_one_find"
-        android:title="@string/menu_qrcode"
         android:icon="@android:drawable/ic_menu_search"
         sabd:showAsAction="always" />
-    <item
-        android:id="@+id/menu_one"
-        android:title="@string/menu_one"
-        android:icon="@android:drawable/ic_menu_view"
-        sabd:showAsAction="collapseActionView" >
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:sabd="http://schemas.android.com/apk/res-auto" >
     <item
         android:id="@+id/menu_one_qrcode"
         android:title="@string/menu_qrcode"
         android:icon="@android:drawable/ic_menu_search"
-        sabd:showAsAction="ifRoom" />
+        sabd:showAsAction="collapseActionView" />
     <item
         android:id="@+id/menu_one_import_all"
         android:title="@string/menu_one_import_all"
         android:icon="@android:drawable/ic_menu_share"
-        sabd:showAsAction="ifRoom|withText" />
+        sabd:showAsAction="collapseActionView" />
     <item
         android:id="@+id/menu_one_settings"
         android:title="@string/menu_one_settings"
         android:icon="@android:drawable/ic_menu_preferences"
-        sabd:showAsAction="never" />
-</menu>
-</item>
+        sabd:showAsAction="collapseActionView" />
 </menu>
