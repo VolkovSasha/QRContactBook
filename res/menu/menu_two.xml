@@ -1,32 +1,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:sabd="http://schemas.android.com/apk/res-auto" >
     <item
-        android:id="@+id/menu_two"
-        android:title="@string/menu_two"
-        android:icon="@android:drawable/ic_menu_add"
-        sabd:showAsAction="always" >
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:sabd="http://schemas.android.com/apk/res-auto" >
+        android:id="@+id/menu_two_find"
+        android:icon="@android:drawable/ic_menu_search"
+        sabd:showAsAction="always" />
     <item
-        android:id="@+id/menu_two_inport_tel_book"
-        android:title="@string/menu_two_inport_tel_book"
-        android:icon="@android:drawable/ic_menu_delete"
-        sabd:showAsAction="ifRoom" />
+        android:id="@+id/menu_two_qrcode"
+        android:title="@string/menu_qrcode"
+        android:icon="@android:drawable/ic_menu_search"
+        sabd:showAsAction="collapseActionView" />
     <item
-        android:id="@+id/menu_two_inport_all"
-        android:title="@string/menu_two_inport_all"
-        android:icon="@android:drawable/ic_menu_add"
-        sabd:showAsAction="ifRoom|withText" />
+        android:id="@+id/menu_two_export_all"
+        android:title="@string/menu_two_export_all"
+        android:icon="@android:drawable/ic_menu_share"
+        sabd:showAsAction="collapseActionView" />
     <item
         android:id="@+id/menu_two_delete_all"
         android:title="@string/menu_two_delete_all"
-        android:icon="@android:drawable/ic_menu_add"
-        sabd:showAsAction="ifRoom|withText" />
+        android:icon="@android:drawable/ic_menu_delete"
+        sabd:showAsAction="collapseActionView" />
     <item
         android:id="@+id/menu_two_settings"
         android:title="@string/menu_two_settings"
-        android:icon="@android:drawable/ic_menu_add"
-        sabd:showAsAction="never" />
-</menu>
-</item>
+        android:icon="@android:drawable/ic_menu_preferences"
+        sabd:showAsAction="collapseActionView" />
 </menu>

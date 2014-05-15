@@ -20,13 +20,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.qrcontactbook.adapter.ContactAdapter;
 import com.qrcontactbook.db.Contact;
+import com.qrcontactbook.db.ContactData;
 
 public class HomeActivity extends ActionBarActivity {
 	
@@ -45,11 +48,16 @@ public class HomeActivity extends ActionBarActivity {
 	    setContentView(R.layout.contact_base_tel_page);
 	    setTitle("Phone Contact");
 	    setContactViews();
+	    getOverflowMenu();
 	}
     
     @Override
     public void onResume() {
     	super.onResume();
+    	updateData();
+    }
+    
+    private void updateData() {
     	try {
     		phoneAdapter.setData(this.getPhoneContactList());
     		phoneAdapter.notifyDataSetChanged();
@@ -80,6 +88,40 @@ public class HomeActivity extends ActionBarActivity {
 				HomeActivity.this.startActivity(intent);
 			}
 	    });
+	    lv.setOnItemLongClickListener(new OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> adap, View view,
+					int position, long id) {
+				final int pos = position;
+				final String[] name ={"Generate QR Code", "Import contact"};
+				AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+				builder.setTitle("Contact Menu");
+				builder.setItems(name, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int item) {
+						if(name[item].equals("Generate QR Code")) {
+							Intent intent = new Intent(HomeActivity.this, QRCoderActivity.class);
+							intent.putExtra("contact_id", phoneAdapter.getItem(pos).getId());
+							intent.putExtra("contact_name", phoneAdapter.getItem(pos).getName());
+							intent.putExtra("contact_type", "phone_contact");
+							startActivity(intent);
+						}
+						if(name[item].equals("Import contact"))
+							importContact(pos);
+					}
+				});
+				builder.setNegativeButton("Cancel", 
+						new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				});
+				final Dialog dialog = builder.create();
+				dialog.show();
+				return false;
+			}
+		});
 	    pages.add(lv);
 	        
 	    View  page1 = inflater.inflate(R.layout.contact_base_page, null);
@@ -151,7 +193,53 @@ public class HomeActivity extends ActionBarActivity {
 	    setContentView(viewPager);
     }
     
-    private ContactAdapter getPhoneAdapter() {
+    private void importContact(int pos) {
+    	Contact contact = new Contact(phoneAdapter.getItem(pos).getName());
+    	try {
+    		((ContactApp)this.getApplication()).getContactManager()
+    				.create(contact);
+    		contact = ((ContactApp)this.getApplication()).getContactManager()
+    				.getLast();
+    		
+    		List<ContactData> list = ((ContactApp)this.getApplication())
+    				.getContactDataManager().getPhoneContactData(
+							phoneAdapter.getItem(pos).getId(), this);
+    		for(ContactData d : list) {
+    			String type = formatType(d);
+				if(type.equals(""))
+					continue;
+				ContactData data = new ContactData();
+				data.setContactId(contact.getId());
+				data.setType(type);
+				data.setValue(d.getValue());
+				((ContactApp)this.getApplication()).getContactDataManager()
+						.create(data);
+    		}
+    		
+    		Toast.makeText(this, "Contact " + contact.getName() + 
+    				" was imported", Toast.LENGTH_SHORT).show();
+    		updateData();
+    	} catch(SQLException ex) {
+    		Log.e(TAG, ex.getMessage(), ex);
+    	}
+    }
+    
+	private String formatType(ContactData data) {
+		String type = "";
+		
+		if("E-Mail".equals(data.getType()))
+			type = "E-mail";
+		if("1".equals(data.getType()))
+			type = "number:Home";
+		if("2".equals(data.getType()))
+			type = "number:Mobile";
+		if("3".equals(data.getType()))
+			type = "number:Work";
+		
+		return type;
+	}
+
+	private ContactAdapter getPhoneAdapter() {
     	phoneAdapter = new ContactAdapter(this);
     	phoneAdapter.setData(this.getPhoneContactList());
     	return phoneAdapter;
@@ -211,7 +299,22 @@ public class HomeActivity extends ActionBarActivity {
 			setTitle("Base Contact");
 	}
 
-
+	private void getOverflowMenu() {
+		 
+	    try {
+	 
+	       ViewConfiguration config = ViewConfiguration.get(this);
+	       java.lang.reflect.Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+	       if(menuKeyField != null) {
+	           menuKeyField.setAccessible(true);
+	           menuKeyField.setBoolean(config, false);
+	       }
+	   } catch (Exception e) {
+	       e.printStackTrace();
+	   }
+	 
+	}
+	
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	if(mState == 0)

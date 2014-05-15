@@ -11,7 +11,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.qrcontactbook.adapter.ContactDataAdapter;
+import com.qrcontactbook.db.Contact;
+import com.qrcontactbook.db.ContactData;
 
 public class ContactActivity extends Activity {
 	
@@ -59,6 +62,7 @@ public class ContactActivity extends Activity {
 	 
 	private void setDataFromPhone() {
 
+		((Button)findViewById(R.id.btn_del)).setEnabled(false);
 		((TextView)findViewById(R.id.nameTextView)).setText(contact_name);
 		((TextView)findViewById(R.id.grouptextView)).setText(
 				((ContactApp)this.getApplication()).getContactDataManager()
@@ -81,6 +85,28 @@ public class ContactActivity extends Activity {
 		intent.putExtra("contact_name", contact_name);
 		intent.putExtra("contact_type", contact_type);
 		this.startActivity(intent);
+	}
+	
+	public void onDeletelClick(View view) {
+		
+		if(contact_type.equals("phone_contact")) {
+			return;
+		} else {
+			try {
+				Contact con = new Contact(contact_name);
+				con.setId(contact_id);
+				((ContactApp)this.getApplication()).getContactManager()
+					.delete(con);
+				DeleteBuilder<ContactData, Integer> db = 
+						 ((ContactApp)this.getApplication()).getContactDataManager()
+				 		.getContactDataDao().deleteBuilder();
+				db.where().eq("contact_id", contact_id);
+				db.delete();
+				finish();
+			} catch(SQLException ex) {
+				Log.e(TAG, ex.getMessage(), ex);
+			}
+		}
 	}
 	
 	@Override

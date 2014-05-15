@@ -68,7 +68,39 @@ public class QRCoderActivity extends Activity {
 	private String getPhoneData() {
 		String data = "No data";
 		
+		StringBuilder sb = new StringBuilder();
+		sb.append("QRCodeContact.type;");
+		sb.append("name=").append(contact_name).append(";");
+
+		List<ContactData> list = ((ContactApp)this.getApplication())
+				.getContactDataManager().getPhoneContactData(contact_id, this);
+		for(ContactData d : list) {
+			String type = formatType(d);
+			if(type.equals(""))
+				continue;
+			sb.append(type).append("=")
+				.append(d.getValue()).append(";");
+		}
+		sb.append("end");
+		
+		data = sb.toString();
+		
 		return data;
+	}
+	
+	private String formatType(ContactData data) {
+		String type = "";
+		
+		if("E-Mail".equals(data.getType()))
+			type = "E-mail";
+		if("1".equals(data.getType()))
+			type = "number:Home";
+		if("2".equals(data.getType()))
+			type = "number:Mobile";
+		if("3".equals(data.getType()))
+			type = "number:Work";
+		
+		return type;
 	}
 	
 	private String getBaseData() {
@@ -88,7 +120,6 @@ public class QRCoderActivity extends Activity {
 			sb.append("end");
 			
 			data = sb.toString();
-			Log.d("QR CODE OUTPUT", data);
 		} catch(java.sql.SQLException ex) {
 			Log.e(TAG, ex.getMessage());
 		}

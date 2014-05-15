@@ -46,11 +46,6 @@ public class EditContactActivity extends Activity {
 	private Map<String, List<Long>> groupList;
 	private Map<String, Long> baseGroups;
 	
-	final String[] namee = new String[] {
-		    "trolo", "trololo", "rt", "ertwe", "dgds",
-		    "ololo", "rety", "sdfgfh", "sdfggfhas", "sdgfdfgdg",
-		    "sdfgdfrt", "fhfgh", "gjhghj"		    
-		  };
 	private View dlg = null;
 	private ArrayAdapter<?> numberTypeAdapter;
 		
