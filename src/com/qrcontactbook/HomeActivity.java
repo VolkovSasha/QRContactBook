@@ -19,6 +19,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.AdapterView;
@@ -107,7 +108,7 @@ public class HomeActivity extends ActionBarActivity {
 							startActivity(intent);
 						}
 						if(name[item].equals("Import contact"))
-							importContact(pos);
+							importContact(pos, true);
 					}
 				});
 				builder.setNegativeButton("Cancel", 
@@ -145,7 +146,7 @@ public class HomeActivity extends ActionBarActivity {
 			public boolean onItemLongClick(AdapterView<?> adap, View view,
 					int position, long id) {
 				final int pos = position;
-				final String[] name ={"Generate QR Code", "Read QR Code"};
+				final String[] name ={"Generate QR Code"};
 				AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
 				builder.setTitle("Contact Menu");
 				builder.setItems(name, new DialogInterface.OnClickListener() {
@@ -156,10 +157,6 @@ public class HomeActivity extends ActionBarActivity {
 							intent.putExtra("contact_id", baseAdapter.getItem(pos).getId());
 							intent.putExtra("contact_name", baseAdapter.getItem(pos).getName());
 							intent.putExtra("contact_type", "base_contact");
-							startActivity(intent);
-						}
-						if(name[item].equals("Read QR Code")) {
-							Intent intent = new Intent(HomeActivity.this, QRDecoderActivity.class);
 							startActivity(intent);
 						}
 					}
@@ -193,7 +190,7 @@ public class HomeActivity extends ActionBarActivity {
 	    setContentView(viewPager);
     }
     
-    private void importContact(int pos) {
+    private void importContact(int pos, boolean refresh) {
     	Contact contact = new Contact(phoneAdapter.getItem(pos).getName());
     	try {
     		((ContactApp)this.getApplication()).getContactManager()
@@ -218,7 +215,8 @@ public class HomeActivity extends ActionBarActivity {
     		
     		Toast.makeText(this, "Contact " + contact.getName() + 
     				" was imported", Toast.LENGTH_SHORT).show();
-    		updateData();
+    		if(refresh)
+    			updateData();
     	} catch(SQLException ex) {
     		Log.e(TAG, ex.getMessage(), ex);
     	}
@@ -324,5 +322,45 @@ public class HomeActivity extends ActionBarActivity {
     		getMenuInflater().inflate(R.menu.menu_two, menu);
         return true;
     }
+
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		switch (item.getItemId()) {
+
+		case R.id.menu_one_qrcode:
+		case R.id.menu_two_qrcode:
+			Intent intent = new Intent(HomeActivity.this, QRDecoderActivity.class);
+			startActivity(intent);
+			break;
+
+		case R.id.menu_one_find:
+			break;
+		case R.id.menu_one_import_all:
+			for(int i = 0; i < phoneAdapter.getCount(); i++)
+				importContact(i, false);
+			updateData();
+			break;
+		case R.id.menu_one_settings:
+			break;
+		case R.id.menu_two_delete_all:
+			try {
+				for(int i = 0; i < baseAdapter.getCount(); i++)
+					((ContactApp)this.getApplication()).getContactManager()
+					.delete(baseAdapter.getItem(i));
+				updateData();
+			} catch(SQLException ex) {
+				Log.e(TAG, ex.getMessage(), ex);
+			}
+			break;
+		case R.id.menu_two_export_all:
+			break;
+		case R.id.menu_two_find:
+			break;
+		case R.id.menu_two_settings:
+			break;
+		}
+		
+		return true;
+	}
 
 }
