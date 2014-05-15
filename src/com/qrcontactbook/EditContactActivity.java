@@ -13,7 +13,9 @@ import com.qrcontactbook.db.Contact;
 import com.qrcontactbook.db.ContactData;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -96,19 +98,34 @@ public class EditContactActivity extends Activity {
 			numberAdapter.setData(((ContactApp)this.getApplication())
 					.getContactDataManager().getBaseContactNumbers(contact_id));
 			numbersLV.setAdapter(numberAdapter);
-			numbersLV.setOnItemLongClickListener(new OnItemLongClickListener() {
+			numbersLV.setOnItemClickListener(new OnItemClickListener() {
 				@Override
-				public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,
-						long arg3) {
-					ContactData data = numberAdapter.getItem(arg2);
-					try {
-						((ContactApp) getApplication()).getContactDataManager()
-								.delete(data);
-						updateBaseNumbers();
-					} catch(SQLException ex) {
-						Log.e(TAG, ex.getMessage());
-					}
-					return true;
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+						final int arg2, long arg3) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(EditContactActivity.this);
+					builder.setTitle("Delete contact?");
+					builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							ContactData data = numberAdapter.getItem(arg2);
+							try {
+								((ContactApp) getApplication()).getContactDataManager()
+										.delete(data);
+								updateBaseNumbers();
+							} catch(SQLException ex) {
+								Log.e(TAG, ex.getMessage());
+							}
+							
+						}
+					});
+					builder.setNegativeButton("Cansel", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+						}
+					});
+					builder.show();
+					
 				}
 			});
 		} catch(SQLException ex) {
