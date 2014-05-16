@@ -12,8 +12,9 @@
 	<string name="menu_one_settings">Settings</string>
 	
 	<string name="menu_two">Base menu</string>
+	<string name="menu_two_new_contact">New contact</string>
 	<string name="menu_two_export_all">Export all</string>
-	<string name="menu_two_settings">Settings</string>
+		<string name="menu_two_settings">Settings</string>
 	<string name="menu_two_delete_all">Delete all</string>
 	
 	<string-array name="group_spinner">

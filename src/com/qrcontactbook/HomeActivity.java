@@ -392,6 +392,8 @@ public class HomeActivity extends ActionBarActivity {
 			break;
 		case R.id.menu_two_export_all:
 			break;
+		case R.id.menu_two_new_contact:
+			break;
 		case R.id.menu_two_find:
 			break;
 		case R.id.menu_two_settings:
