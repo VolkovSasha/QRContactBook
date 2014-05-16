@@ -362,7 +362,7 @@ public class HomeActivity extends ActionBarActivity {
 			break;
 		case R.id.menu_two_delete_all:
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle("sdfgdg");
+			builder.setTitle("Delete All ?");
 			builder.setPositiveButton("Delete All", new DialogInterface.OnClickListener() {
 				
 				@Override

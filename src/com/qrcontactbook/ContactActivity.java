@@ -3,6 +3,8 @@ package com.qrcontactbook;
 import java.sql.SQLException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -77,8 +79,6 @@ public class ContactActivity extends Activity {
 		Button but = (Button)findViewById(R.id.btn_edit);
 		but.setEnabled(false);
 	}
-	 
-	
 	public void onEditContactClick(View view){
 		Intent intent = new Intent(this, EditContactActivity.class);
 		intent.putExtra("contact_id", contact_id);
@@ -86,34 +86,43 @@ public class ContactActivity extends Activity {
 		intent.putExtra("contact_type", contact_type);
 		this.startActivity(intent);
 	}
-	
 	public void onDeletelClick(View view) {
-		
-		if(contact_type.equals("phone_contact")) {
-			return;
-		} else {
-			try {
-				Contact con = new Contact(contact_name);
-				con.setId(contact_id);
-				((ContactApp)this.getApplication()).getContactManager()
-					.delete(con);
-				DeleteBuilder<ContactData, Integer> db = 
-						 ((ContactApp)this.getApplication()).getContactDataManager()
-				 		.getContactDataDao().deleteBuilder();
-				db.where().eq("contact_id", contact_id);
-				db.delete();
-				finish();
-			} catch(SQLException ex) {
-				Log.e(TAG, ex.getMessage(), ex);
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Delete Contact?");
+		builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				if(contact_type.equals("phone_contact")) {
+					return;
+				} else {
+					try {
+						Contact con = new Contact(contact_name);
+						con.setId(contact_id);
+						((ContactApp)getApplication()).getContactManager()
+							.delete(con);
+						DeleteBuilder<ContactData, Integer> db = 
+								 ((ContactApp)getApplication()).getContactDataManager()
+						 		.getContactDataDao().deleteBuilder();
+						db.where().eq("contact_id", contact_id);
+						db.delete();
+						finish();
+					} catch(SQLException ex) {
+						Log.e(TAG, ex.getMessage(), ex);
+					}
+				}
 			}
-		}
+		});
+		builder.setNegativeButton("Cansel", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+			}
+		});
+		builder.show();
 	}
-	
 	@Override
 	public void onBackPressed() {
 		Intent intent = new Intent(this, HomeActivity.class);
 		this.startActivity(intent);
 		finish();
 	}
-	 
 }
