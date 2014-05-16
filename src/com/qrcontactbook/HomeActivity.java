@@ -336,21 +336,59 @@ public class HomeActivity extends ActionBarActivity {
 		case R.id.menu_one_find:
 			break;
 		case R.id.menu_one_import_all:
-			for(int i = 0; i < phoneAdapter.getCount(); i++)
-				importContact(i, false);
-			updateData();
+			
+			AlertDialog.Builder build = new AlertDialog.Builder(this);
+			build.setTitle("Inport All");
+			build.setPositiveButton("Inport", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+
+					for(int i = 0; i < phoneAdapter.getCount(); i++)
+						importContact(i, false);
+					updateData();
+				}
+			});
+			build.setNegativeButton("Cansel", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+				}
+			});
+			build.show();
 			break;
 		case R.id.menu_one_settings:
 			break;
 		case R.id.menu_two_delete_all:
-			try {
-				for(int i = 0; i < baseAdapter.getCount(); i++)
-					((ContactApp)this.getApplication()).getContactManager()
-					.delete(baseAdapter.getItem(i));
-				updateData();
-			} catch(SQLException ex) {
-				Log.e(TAG, ex.getMessage(), ex);
-			}
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("sdfgdg");
+			builder.setPositiveButton("Delete All", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					try {
+						for(int i = 0; i < baseAdapter.getCount(); i++)
+							((ContactApp)HomeActivity.this.getApplication()).getContactManager()
+							.delete(baseAdapter.getItem(i));
+						updateData();
+					} catch(SQLException ex) {
+						Log.e(TAG, ex.getMessage(), ex);
+					}
+					
+				}
+			});
+
+			builder.setNegativeButton("Cansel", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+			builder.show();
+			
 			break;
 		case R.id.menu_two_export_all:
 			break;
