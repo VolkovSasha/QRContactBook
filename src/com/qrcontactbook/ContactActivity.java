@@ -112,7 +112,7 @@ public class ContactActivity extends Activity {
 				}
 			}
 		});
-		builder.setNegativeButton("Cansel", new DialogInterface.OnClickListener() {
+		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 			}
