@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
@@ -25,6 +26,7 @@ import android.view.ViewConfiguration;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -393,6 +395,7 @@ public class HomeActivity extends ActionBarActivity {
 		case R.id.menu_two_export_all:
 			break;
 		case R.id.menu_two_new_contact:
+			newContact();
 			break;
 		case R.id.menu_two_find:
 			break;
@@ -401,6 +404,24 @@ public class HomeActivity extends ActionBarActivity {
 		}
 		
 		return true;
+	}
+	
+	private void newContact(){
+		final EditText contact = new EditText(this);
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("New Contact");
+		builder.setView(contact);
+		builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+			}
+		});
+		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+			} });
+		builder.show();
 	}
 
 }
