@@ -25,7 +25,7 @@ public class QRCoderActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		Intent intent = this.getIntent();
 		contact_id = intent.getLongExtra("contact_id", 0);
 		contact_name = intent.getStringExtra("contact_name");
@@ -33,7 +33,7 @@ public class QRCoderActivity extends Activity {
 
 		setContentView();
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	private void setContentView() {
 		LinearLayout ll = new LinearLayout(this);
@@ -54,9 +54,9 @@ public class QRCoderActivity extends Activity {
 		gen.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				new QRContactCoder(QRCoderActivity.this).execute(
-						(contact_type.equals("phone_contact"))?
-								getPhoneData():getBaseData());
+				new QRContactCoder(QRCoderActivity.this).execute((contact_type
+						.equals("phone_contact")) ? getPhoneData()
+						: getBaseData());
 			}
 		});
 		top.addView(gen);
@@ -64,66 +64,65 @@ public class QRCoderActivity extends Activity {
 		ll.addView(top, LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 		setContentView(ll);
 	}
-	
+
 	private String getPhoneData() {
 		String data = "No data";
-		
+
 		StringBuilder sb = new StringBuilder();
 		sb.append("QRCodeContact.type;");
 		sb.append("name=").append(contact_name).append(";");
 
-		List<ContactData> list = ((ContactApp)this.getApplication())
+		List<ContactData> list = ((ContactApp) this.getApplication())
 				.getContactDataManager().getPhoneContactData(contact_id, this);
-		for(ContactData d : list) {
+		for (ContactData d : list) {
 			String type = formatType(d);
-			if(type.equals(""))
+			if (type.equals(""))
 				continue;
-			sb.append(type).append("=")
-				.append(d.getValue()).append(";");
+			sb.append(type).append("=").append(d.getValue()).append(";");
 		}
 		sb.append("end");
-		
+
 		data = sb.toString();
-		
+
 		return data;
 	}
-	
+
 	private String formatType(ContactData data) {
 		String type = "";
-		
-		if("E-Mail".equals(data.getType()))
+
+		if ("E-Mail".equals(data.getType()))
 			type = "E-mail";
-		if("1".equals(data.getType()))
+		if ("1".equals(data.getType()))
 			type = "number:Home";
-		if("2".equals(data.getType()))
+		if ("2".equals(data.getType()))
 			type = "number:Mobile";
-		if("3".equals(data.getType()))
+		if ("3".equals(data.getType()))
 			type = "number:Work";
-		
+
 		return type;
 	}
-	
+
 	private String getBaseData() {
 		String data = "No data";
-		
+
 		try {
 			StringBuilder sb = new StringBuilder();
 			sb.append("QRCodeContact.type;");
 			sb.append("name=").append(contact_name).append(";");
-			
-			List<ContactData> list = ((ContactApp)this.getApplication())
+
+			List<ContactData> list = ((ContactApp) this.getApplication())
 					.getContactDataManager().getBaseContactData(contact_id);
-			for(ContactData d : list) {
-				sb.append(d.getType()).append("=")
-					.append(d.getValue()).append(";");
+			for (ContactData d : list) {
+				sb.append(d.getType()).append("=").append(d.getValue())
+						.append(";");
 			}
 			sb.append("end");
-			
+
 			data = sb.toString();
-		} catch(java.sql.SQLException ex) {
+		} catch (java.sql.SQLException ex) {
 			Log.e(TAG, ex.getMessage());
 		}
-		
+
 		return data;
 	}
 }
