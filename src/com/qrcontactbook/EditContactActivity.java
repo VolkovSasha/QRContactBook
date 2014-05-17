@@ -2,14 +2,8 @@ package com.qrcontactbook;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.j256.ormlite.stmt.DeleteBuilder;
-import com.qrcontactbook.adapter.ContactDataAdapter;
-import com.qrcontactbook.db.Contact;
-import com.qrcontactbook.db.ContactData;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -23,13 +17,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.j256.ormlite.stmt.DeleteBuilder;
+import com.qrcontactbook.adapter.ContactDataAdapter;
+import com.qrcontactbook.db.Contact;
+import com.qrcontactbook.db.ContactData;
 
 public class EditContactActivity extends Activity {
 
@@ -103,7 +101,8 @@ public class EditContactActivity extends Activity {
 						final int arg2, long arg3) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(
 							EditContactActivity.this);
-					builder.setTitle("Delete contact?");
+
+					builder.setTitle("Delete number?");
 					builder.setPositiveButton("Delete",
 							new DialogInterface.OnClickListener() {
 
@@ -216,11 +215,6 @@ public class EditContactActivity extends Activity {
 				((ContactApp) this.getApplication()).getContactDataManager()
 						.create(new ContactData(contact_id, "E-mail", mail));
 			}
-			Intent intent = new Intent(this, ContactActivity.class);
-			intent.putExtra("contact_id", contact_id);
-			intent.putExtra("contact_name", name);
-			intent.putExtra("contact_type", contact_type);
-			this.startActivity(intent);
 			finish();
 		} catch (SQLException ex) {
 			Log.e(TAG, ex.getMessage());
@@ -229,11 +223,6 @@ public class EditContactActivity extends Activity {
 	}
 
 	public void onCancelClick(View view) {
-		Intent intent = new Intent(this, ContactActivity.class);
-		intent.putExtra("contact_id", contact_id);
-		intent.putExtra("contact_name", contact_name);
-		intent.putExtra("contact_type", contact_type);
-		this.startActivity(intent);
 		finish();
 	}
 

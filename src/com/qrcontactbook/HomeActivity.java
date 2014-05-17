@@ -27,7 +27,10 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TableLayout.LayoutParams;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qrcontactbook.adapter.ContactAdapter;
@@ -351,23 +354,27 @@ public class HomeActivity extends ActionBarActivity {
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
-
+		Intent intent;
 		switch (item.getItemId()) {
 
 		case R.id.menu_one_qrcode:
-		case R.id.menu_two_qrcode:
-			Intent intent = new Intent(HomeActivity.this,
-					QRDecoderActivity.class);
+			intent = new Intent(HomeActivity.this, QRDecoderActivity.class);
 			startActivity(intent);
 			break;
-
+		case R.id.menu_two_qrcode:
+			intent = new Intent(HomeActivity.this, QRDecoderActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.menu_one_newcontact:
+			newContactAndNumber();
+			break;
 		case R.id.menu_one_find:
 			break;
 		case R.id.menu_one_import_all:
 
 			AlertDialog.Builder build = new AlertDialog.Builder(this);
-			build.setTitle("Inport All");
-			build.setPositiveButton("Inport",
+			build.setTitle("Import All");
+			build.setPositiveButton("Import",
 					new DialogInterface.OnClickListener() {
 
 						@Override
@@ -378,7 +385,7 @@ public class HomeActivity extends ActionBarActivity {
 							updateData();
 						}
 					});
-			build.setNegativeButton("Cansel",
+			build.setNegativeButton("Cancel",
 					new DialogInterface.OnClickListener() {
 
 						@Override
@@ -412,7 +419,7 @@ public class HomeActivity extends ActionBarActivity {
 						}
 					});
 
-			builder.setNegativeButton("Cansel",
+			builder.setNegativeButton("Cancel",
 					new DialogInterface.OnClickListener() {
 
 						@Override
@@ -444,6 +451,23 @@ public class HomeActivity extends ActionBarActivity {
 		builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
+				if (contact.getText().toString().equals(""))
+					return;
+				Contact con = new Contact(contact.getText().toString());
+				try {
+					((ContactApp) getApplication()).getContactManager().create(
+							con);
+					con = ((ContactApp) getApplication()).getContactManager()
+							.getLast();
+					Intent intent = new Intent(HomeActivity.this,
+							EditContactActivity.class);
+					intent.putExtra("contact_id", con.getId());
+					intent.putExtra("contact_name", con.getName());
+					intent.putExtra("contact_type", "base_contact");
+					startActivity(intent);
+				} catch (SQLException ex) {
+					Log.e(TAG, ex.getMessage(), ex);
+				}
 			}
 		});
 		builder.setNegativeButton("Cancel",
@@ -453,5 +477,62 @@ public class HomeActivity extends ActionBarActivity {
 					}
 				});
 		builder.show();
+	}
+
+	@SuppressWarnings("deprecation")
+	private void newContactAndNumber() {
+		TextView tv = new TextView(this);
+		tv.setText("Name: ");
+		TextView tv1 = new TextView(this);
+		tv1.setText("Number: ");
+		final EditText number = new EditText(this);
+		final EditText name = new EditText(this);
+		LinearLayout liner = new LinearLayout(this);
+		liner.setOrientation(LinearLayout.VERTICAL);
+		LinearLayout liner1 = new LinearLayout(this);
+		liner1.setOrientation(LinearLayout.VERTICAL);
+		liner1.addView(tv, new LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT));
+		liner1.addView(name, new LayoutParams(LayoutParams.FILL_PARENT,
+				LayoutParams.WRAP_CONTENT));
+		LinearLayout liner2 = new LinearLayout(this);
+		liner2.setOrientation(LinearLayout.VERTICAL);
+		liner2.addView(tv1, new LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT));
+		liner2.addView(number, new LayoutParams(LayoutParams.FILL_PARENT,
+				LayoutParams.WRAP_CONTENT));
+		liner.addView(liner1, new LayoutParams(LayoutParams.MATCH_PARENT,
+				LayoutParams.WRAP_CONTENT));
+		liner.addView(liner2, new LayoutParams(LayoutParams.MATCH_PARENT,
+				LayoutParams.WRAP_CONTENT));
+
+		AlertDialog.Builder build = new AlertDialog.Builder(HomeActivity.this);
+		build.setTitle("New Contact");
+		build.setView(liner);
+		build.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				String n = name.getText().toString();
+				String num = number.getText().toString();
+				if ("".equals(n) || "".equals(num))
+					return;
+				try {
+					((ContactApp) getApplication()).getContactManager()
+							.createPhoneContact(n, num, HomeActivity.this);
+					updateData();
+				} catch (Exception ex) {
+					Log.e(TAG, ex.getMessage(), ex);
+				}
+			}
+		});
+		build.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+					}
+				});
+		build.show();
 	}
 }
