@@ -481,6 +481,7 @@ public class HomeActivity extends ActionBarActivity {
 		builder.show();
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void newContactAndNumber(){
 		TextView tv = new TextView(this);
 		tv.setText("Name: ");
@@ -508,14 +509,23 @@ public class HomeActivity extends ActionBarActivity {
 				LayoutParams.WRAP_CONTENT));
 		
 		AlertDialog.Builder build = new AlertDialog.Builder(HomeActivity.this);
-		build.setTitle("new Contact");
+		build.setTitle("New Contact");
 		build.setView(liner);
 		build.setPositiveButton("Add", new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				
+				String n = name.getText().toString();
+				String num = number.getText().toString();
+				if("".equals(n) || "".equals(num))
+					return;
+				try {
+					((ContactApp)getApplication()).getContactManager()
+							.createPhoneContact(n, num, HomeActivity.this);
+					updateData();
+				} catch(Exception ex) {
+					Log.e(TAG, ex.getMessage(), ex);
+				}
 			}
 		});
 		build.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
