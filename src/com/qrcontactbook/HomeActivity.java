@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
@@ -26,7 +27,10 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TableLayout.LayoutParams;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qrcontactbook.adapter.ContactAdapter;
@@ -350,16 +354,22 @@ public class HomeActivity extends ActionBarActivity {
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
-
+		Intent intent;
 		switch (item.getItemId()) {
 
 		case R.id.menu_one_qrcode:
-		case R.id.menu_two_qrcode:
-			Intent intent = new Intent(HomeActivity.this,
+			intent = new Intent(HomeActivity.this,
 					QRDecoderActivity.class);
 			startActivity(intent);
 			break;
-
+		case R.id.menu_two_qrcode:
+			intent = new Intent(HomeActivity.this,
+					QRDecoderActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.menu_one_newcontact:
+			newContactAndNumber();
+			break;
 		case R.id.menu_one_find:
 			break;
 		case R.id.menu_one_import_all:
@@ -469,5 +479,51 @@ public class HomeActivity extends ActionBarActivity {
 					}
 				});
 		builder.show();
+	}
+	
+	private void newContactAndNumber(){
+		TextView tv = new TextView(this);
+		tv.setText("Name: ");
+		TextView tv1 = new TextView(this);
+		tv1.setText("Number: ");
+		final EditText number = new EditText(this);
+		final EditText name = new EditText(this);
+		LinearLayout liner = new LinearLayout(this);
+		liner.setOrientation(LinearLayout.VERTICAL);
+		LinearLayout liner1 = new LinearLayout(this);
+		liner1.setOrientation(LinearLayout.VERTICAL);
+		liner1.addView(tv, new LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT));
+		liner1.addView(name, new LayoutParams(LayoutParams.FILL_PARENT,
+				LayoutParams.WRAP_CONTENT));
+		LinearLayout liner2 = new LinearLayout(this);
+		liner2.setOrientation(LinearLayout.VERTICAL);
+		liner2.addView(tv1, new LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT));
+		liner2.addView(number, new LayoutParams(LayoutParams.FILL_PARENT,
+				LayoutParams.WRAP_CONTENT));
+		liner.addView(liner1, new LayoutParams(LayoutParams.MATCH_PARENT,
+				LayoutParams.WRAP_CONTENT));
+		liner.addView(liner2, new LayoutParams(LayoutParams.MATCH_PARENT,
+				LayoutParams.WRAP_CONTENT));
+		
+		AlertDialog.Builder build = new AlertDialog.Builder(HomeActivity.this);
+		build.setTitle("new Contact");
+		build.setView(liner);
+		build.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		build.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+			}
+		});
+		build.show();
 	}
 }

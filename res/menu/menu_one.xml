@@ -4,11 +4,17 @@
         android:id="@+id/menu_one_find"
         android:icon="@android:drawable/ic_menu_search"
         sabd:showAsAction="always" />
-    <item
+	<item
+        android:id="@+id/menu_one_newcontact"
+        android:title="@string/menu_one_newcontact"
+        android:icon="@android:drawable/ic_menu_add"
+        sabd:showAsAction="collapseActionView" />
+	<item
         android:id="@+id/menu_one_qrcode"
         android:title="@string/menu_qrcode"
         android:icon="@android:drawable/ic_menu_search"
         sabd:showAsAction="collapseActionView" />
+
     <item
         android:id="@+id/menu_one_import_all"
         android:title="@string/menu_one_import_all"
