@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
@@ -444,6 +443,23 @@ public class HomeActivity extends ActionBarActivity {
 		builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
+				if(contact.getText().toString().equals(""))
+					return;
+				Contact con = new Contact(contact.getText().toString());
+				try {
+					((ContactApp)getApplication()).getContactManager()
+							.create(con);
+					con = ((ContactApp)getApplication())
+							.getContactManager().getLast();
+					Intent intent = new Intent(HomeActivity.this,
+							EditContactActivity.class);
+					intent.putExtra("contact_id", con.getId());
+					intent.putExtra("contact_name", con.getName());
+					intent.putExtra("contact_type", "base_contact");
+					startActivity(intent);
+				} catch(SQLException ex) {
+					Log.e(TAG, ex.getMessage(), ex);
+				}
 			}
 		});
 		builder.setNegativeButton("Cancel",
