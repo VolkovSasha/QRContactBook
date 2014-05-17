@@ -19,7 +19,7 @@ public class QRContactCoder extends AsyncTask<String, Integer, ImageView> {
 	private static final int BLACK = 0xFF000000;
 	private static final int WHITE = 0xFFFFFFFF;
 	private static final int ID = 34646456;
-	
+
 	public QRContactCoder(Activity act) {
 		this.act = act;
 	}
@@ -33,7 +33,7 @@ public class QRContactCoder extends AsyncTask<String, Integer, ImageView> {
 		dialog.show();
 		super.onPreExecute();
 	}
-	
+
 	@Override
 	protected ImageView doInBackground(String... params) {
 		DisplayMetrics dm = new DisplayMetrics();
