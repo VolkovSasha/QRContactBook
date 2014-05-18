@@ -5,15 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.app.Dialog;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBarActivity;
@@ -65,7 +60,8 @@ public class HomeActivity extends ActionBarActivity {
 
 	private void updateData() {
 		try {
-			phoneAdapter.setData(this.getPhoneContactList());
+			phoneAdapter.setData(((ContactApp) getApplication())
+					.getContactManager().getPhoneContactList(this));
 			phoneAdapter.notifyDataSetChanged();
 			baseAdapter.setData(((ContactApp) this.getApplication())
 					.getContactManager().getAll());
@@ -102,7 +98,7 @@ public class HomeActivity extends ActionBarActivity {
 			public boolean onItemLongClick(AdapterView<?> adap, View view,
 					int position, long id) {
 				final int pos = position;
-				final String[] name = { "Generate QR Code", "Import contact" };
+				final String[] name = { "Generate QR Code", "Import contact", "Delete Contact" };
 				AlertDialog.Builder builder = new AlertDialog.Builder(
 						HomeActivity.this);
 				builder.setTitle("Contact Menu");
@@ -121,6 +117,8 @@ public class HomeActivity extends ActionBarActivity {
 						}
 						if (name[item].equals("Import contact"))
 							importContact(pos, true);
+						if("Delete Contact".equals(name[item]))
+							deleteContact(pos);
 					}
 				});
 				builder.setNegativeButton("Cancel",
@@ -217,6 +215,18 @@ public class HomeActivity extends ActionBarActivity {
 
 		setContentView(viewPager);
 	}
+	
+	private void deleteContact(int pos) {
+		Contact contact = phoneAdapter.getItem(pos);
+
+		try {
+			((ContactApp) this.getApplication()).getContactManager()
+					.deletePhoneContact(contact.getName(), this);
+			updateData();
+		} catch (Exception ex) {
+			Log.e(TAG, ex.getMessage(), ex);
+		}
+	}
 
 	private void importContact(int pos, boolean refresh) {
 		Contact contact = new Contact(phoneAdapter.getItem(pos).getName());
@@ -268,7 +278,8 @@ public class HomeActivity extends ActionBarActivity {
 
 	private ContactAdapter getPhoneAdapter() {
 		phoneAdapter = new ContactAdapter(this);
-		phoneAdapter.setData(this.getPhoneContactList());
+		phoneAdapter.setData(((ContactApp) getApplication())
+				.getContactManager().getPhoneContactList(this));
 		return phoneAdapter;
 	}
 
@@ -282,35 +293,6 @@ public class HomeActivity extends ActionBarActivity {
 		}
 
 		return baseAdapter;
-	}
-
-	private List<Contact> getPhoneContactList() {
-		List<Contact> list = new ArrayList<Contact>();
-
-		Uri uri = ContactsContract.Contacts.CONTENT_URI;
-		ContentResolver cr = getContentResolver();
-
-		String[] projection = { ContactsContract.Contacts._ID,
-				ContactsContract.Contacts.DISPLAY_NAME,
-				ContactsContract.Contacts.HAS_PHONE_NUMBER };
-		String selection = ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1";
-		String sortOrder = ContactsContract.Contacts.DISPLAY_NAME
-				+ " COLLATE LOCALIZED ASC";
-
-		Cursor cur = cr.query(uri, projection, selection, null, sortOrder);
-		if (cur.getCount() > 0) {
-			while (cur.moveToNext()) {
-				Contact contact = new Contact();
-				contact.setId(Long.parseLong(cur.getString(cur
-						.getColumnIndex(ContactsContract.Contacts._ID))));
-				contact.setName(cur.getString(cur
-						.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
-				list.add(contact);
-			}
-		}
-		cur.close();
-
-		return list;
 	}
 
 	private void menuChange() {

@@ -6,7 +6,10 @@ import java.util.List;
 
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 import android.provider.ContactsContract;
 import android.widget.Toast;
 
@@ -90,6 +93,65 @@ public class ContactManager {
 
 	public void createPhoneNumber() {
 
+	}
+
+	public List<Contact> getPhoneContactList(Context context) {
+		List<Contact> list = new ArrayList<Contact>();
+
+		Uri uri = ContactsContract.Contacts.CONTENT_URI;
+		ContentResolver cr = context.getContentResolver();
+
+		String[] projection = { ContactsContract.Contacts._ID,
+				ContactsContract.Contacts.DISPLAY_NAME,
+				ContactsContract.Contacts.HAS_PHONE_NUMBER };
+		String selection = ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1";
+		String sortOrder = ContactsContract.Contacts.DISPLAY_NAME
+				+ " COLLATE LOCALIZED ASC";
+
+		Cursor cur = cr.query(uri, projection, selection, null, sortOrder);
+		if (cur.getCount() > 0) {
+			while (cur.moveToNext()) {
+				Contact contact = new Contact();
+				contact.setId(Long.parseLong(cur.getString(cur
+						.getColumnIndex(ContactsContract.Contacts._ID))));
+				contact.setName(cur.getString(cur
+						.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
+				list.add(contact);
+			}
+		}
+		cur.close();
+
+		return list;
+	}
+
+	public void deletePhoneContact(String name, Context context) {
+		Cursor cur = context.getContentResolver().query(
+				ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+				null,
+				ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " LIKE '"
+						+ name + "'", null, null);
+		this.deletePhoneContact(cur, context);
+	}
+
+	public void deletePhoneContact(long contact_id, Context context) {
+		Cursor cur = context.getContentResolver().query(
+				ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+				null,
+				ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "="
+						+ contact_id, null, null);
+		this.deletePhoneContact(cur, context);
+	}
+
+	private void deletePhoneContact(Cursor cur, Context context) {
+		cur.moveToFirst();
+		String lookupKey = cur.getString(cur
+				.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
+		Uri uri = Uri.withAppendedPath(
+				ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey);
+		
+		context.getContentResolver().delete(uri, null, null);
+		
+		cur.close();
 	}
 
 }
