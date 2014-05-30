@@ -21,8 +21,15 @@
         android:icon="@android:drawable/ic_menu_share"
         sabd:showAsAction="collapseActionView" />
     <item
+        android:id="@+id/menu_one_share"
+        android:title="@string/menu_one_share"
+        android:icon="@android:drawable/ic_menu_preferences"
+        sabd:showAsAction="collapseActionView" />
+ <!--  
+ 	<item
         android:id="@+id/menu_one_settings"
         android:title="@string/menu_one_settings"
         android:icon="@android:drawable/ic_menu_preferences"
         sabd:showAsAction="collapseActionView" />
+ -->
 </menu>

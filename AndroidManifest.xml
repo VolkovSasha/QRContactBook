@@ -33,6 +33,7 @@
         <activity android:name="EditContactActivity"></activity>
         <activity android:name="QRCoderActivity"></activity>
         <activity android:name="QRDecoderActivity"></activity>
+        <activity android:name="QRShareActivity"></activity>
     </application>
 
 </manifest>

@@ -11,6 +11,7 @@
 	<string name="menu_one_import_all">Inport all</string>
 	<string name="menu_one_settings">Settings</string>
 	<string name="menu_one_newcontact">New Contact</string>
+	<string name="menu_one_share">Share App</string>
 	
 	<string name="menu_two">Base menu</string>
 	<string name="menu_two_new_contact">New contact</string>

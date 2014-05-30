@@ -377,7 +377,9 @@ public class HomeActivity extends ActionBarActivity {
 					});
 			build.show();
 			break;
-		case R.id.menu_one_settings:
+		case R.id.menu_one_share:
+			intent = new Intent(HomeActivity.this, QRShareActivity.class);
+			startActivity(intent);
 			break;
 		case R.id.menu_two_delete_all:
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -418,13 +420,13 @@ public class HomeActivity extends ActionBarActivity {
 			break;
 		case R.id.menu_two_find:
 			break;
-		case R.id.menu_two_settings:
-			break;
+	//	case R.id.menu_two_settings:
+	//		break;
 		}
 
 		return true;
 	}
-
+	
 	private void newContact() {
 		final EditText contact = new EditText(this);
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
